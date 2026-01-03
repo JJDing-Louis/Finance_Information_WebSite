@@ -1,0 +1,62 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+  api:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.backend
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120
+    env_file: [./.env]
+    working_dir: /app/backend
+    volumes:
+      - ../backend:/app/backend
+    ports: ["8000:8000"]
+    depends_on: [redis]
+
+  worker:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.backend
+    command: celery -A config worker -l info
+    env_file: [./.env]
+    working_dir: /app/backend
+    volumes:
+      - ../backend:/app/backend
+    depends_on: [redis]
+
+  beat:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.backend
+    command: celery -A config beat -l info
+    env_file: [./.env]
+    working_dir: /app/backend
+    volumes:
+      - ../backend:/app/backend
+    depends_on: [redis]
+
+  flower:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.backend
+    command: celery -A config flower --port=5555
+    env_file: [./.env]
+    working_dir: /app/backend
+    volumes:
+      - ../backend:/app/backend
+    ports: ["5555:5555"]
+    depends_on: [redis, worker]
+
+  streamlit:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.streamlit
+    command: streamlit run app.py --server.port=8501 --server.address=0.0.0.0
+    env_file: [./.env]
+    working_dir: /app/streamlit_app
+    volumes:
+      - ../streamlit_app:/app/streamlit_app
+    ports: ["8501:8501"]
+    depends_on: [api]

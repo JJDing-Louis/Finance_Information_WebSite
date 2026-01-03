@@ -1,0 +1,50 @@
+# Render Blueprint (example)
+# Create services:
+# - api (Django)
+# - worker (Celery)
+# - beat (Celery Beat)
+# - flower (Dashboard)
+# - streamlit (UI)
+#
+# Set env vars in Render Dashboard (do not commit secrets).
+
+services:
+  - type: web
+    name: django-api
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput || true
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120
+    autoDeploy: true
+
+  - type: worker
+    name: celery-worker
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: celery -A config worker -l info
+    autoDeploy: true
+
+  - type: worker
+    name: celery-beat
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: celery -A config beat -l info
+    autoDeploy: true
+
+  - type: web
+    name: flower
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: celery -A config flower --port=5555
+    autoDeploy: true
+
+  - type: web
+    name: streamlit-ui
+    env: python
+    rootDir: streamlit_app
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.port=8000 --server.address=0.0.0.0
+    autoDeploy: true
