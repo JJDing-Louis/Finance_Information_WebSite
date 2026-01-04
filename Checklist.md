@@ -4,20 +4,20 @@
 
 完成後你會有：
 
-- [ ] 一個 **Django API Server**（提供給 Streamlit）
-- [ ] 一套 **類 Hangfire 的排程系統**（Celery + Beat）
-- [ ] **Raw 資料可追溯**（MongoDB Atlas）
-- [ ] **Curated 分析資料**（Neon PostgreSQL）
-- [ ] **Streamlit UI** 只做分析與視覺化
+- 一個 **Django API Server**（提供給 Streamlit）
+- 一套 **類 Hangfire 的排程系統**（Celery + Beat）
+- **Raw 資料可追溯**（MongoDB Atlas）
+- **Curated 分析資料**（Neon PostgreSQL）
+- **Streamlit UI** 只做分析與視覺化
 
 ---
 
 ## Phase 0：帳號與基礎資源準備（一次性）
 
 ### 0.1 GitHub
-- [ ] 建立主 repo（建議 monorepo）
-- [ ] 設定 `.gitignore`（Python / Django / Streamlit）
-- [ ] 規劃基本目錄結構
+- [x] 建立主 repo（建議 monorepo）
+- [x] 設定 `.gitignore`（Python / Django / Streamlit）
+- [x] 規劃基本目錄結構
 
 ```text
 repo/
@@ -26,7 +26,7 @@ repo/
 ```
 
 ### 0.2 Neon（Curated DB）
-- [ ] 註冊 Neon
+- [x] 註冊 Neon
 - [ ] Create Project
 - [ ] 複製 `DATABASE_URL`
 - [ ] 記下 DB 名稱 / user / region
