@@ -27,16 +27,16 @@ repo/
 
 ### 0.2 Neon（Curated DB）
 - [x] 註冊 Neon
-- [ ] Create Project
-- [ ] 複製 `DATABASE_URL`
-- [ ] 記下 DB 名稱 / user / region
+- [x] Create Project
+- [x] 複製 `DATABASE_URL`
+- [x] 記下 DB 名稱 / user / region
 
 ### 0.3 MongoDB Atlas（Raw DB）
-- [ ] 建立 Atlas Project
-- [ ] 建立 M0 Cluster（Free）
-- [ ] 建立 DB User
-- [ ] 設定 Network Access（開發期可先 `0.0.0.0/0`）
-- [ ] 複製 `MONGODB_URI`
+- [x] 建立 Atlas Project
+- [x] 建立 M0 Cluster（Free）
+- [x] 建立 DB User
+- [x] 設定 Network Access（開發期可先 `0.0.0.0/0`）
+- [x] 複製 `MONGODB_URI`
 
 ### 0.4 Render（或其他託管平台）
 - [ ] 註冊 Render
