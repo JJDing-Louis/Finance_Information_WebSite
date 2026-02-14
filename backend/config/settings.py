@@ -30,13 +30,21 @@ MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME", "analytics")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-only-change-me")
-DEBUG = os.getenv("DJANGO_DEBUG", "1") == "1"
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",") if not DEBUG else []
+# 允許多種寫法：True/False, 1/0, true/false
+_debug_raw = (os.getenv("DJANGO_DEBUG", "False") or "").strip().lower()
+DEBUG = _debug_raw in ("1", "true", "yes", "y", "on")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+_allowed_hosts_raw = (os.getenv("DJANGO_ALLOWED_HOSTS", "") or "").strip()
+ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts_raw.split(",") if h.strip()]
 
-ALLOWED_HOSTS = []
+# 保底：在 Render 上如果你忘了填，也別直接炸掉
+# （你要嚴格也可以拿掉這段）
+if not ALLOWED_HOSTS and not DEBUG:
+    ALLOWED_HOSTS = [".onrender.com"]
+
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
+# ALLOWED_HOSTS = []
 
 
 # Application definition
