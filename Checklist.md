@@ -37,12 +37,13 @@ repo/
 - [x] 建立 DB User
 - [x] 設定 Network Access（開發期可先 `0.0.0.0/0`）
 - [x] 複製 `MONGODB_URI`
+**Note:需驗證資料查詢功能**
 
 ### 0.4 Render（或其他託管平台）
-- [ ] 註冊 Render
-- [ ] 連結 GitHub
-- [ ] 規劃服務
-  - [ ] Django API（Web）
+- [x] 註冊 Render
+- [X] 連結 GitHub
+- [x] 規劃服務
+  - [x] Django API（Web）
   - [ ] Celery Worker（Background）
   - [ ] Celery Beat（Background / Cron）
   - [ ] Streamlit UI（Web）
