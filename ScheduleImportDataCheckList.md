@@ -15,3 +15,7 @@
 - [ ] 取得三大法人公開資料 (P.251)
 - [ ] 取得融資券公開資訊 (P.236)
 - [ ] 取得月營收公開資訊 (P.263)
+
+
+## 取得上市櫃股票代碼 
+1. Source: https://docsaid.org/blog/get-taiwan-all-stocks-info/
