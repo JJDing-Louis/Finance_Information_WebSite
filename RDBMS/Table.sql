@@ -14,7 +14,6 @@ go
 
 
 --API設定
-
 create table dbo.TB_API_CONFIGS
 (
     scheduleName        nvarchar(100) not null
@@ -34,7 +33,6 @@ create table dbo.TB_API_CONFIGS
 go
 
 --FTP設定
-
 create table dbo.TB_FTP_CONFIGS
 (
     scheduleName            nvarchar(100) not null
@@ -56,7 +54,7 @@ create table dbo.TB_FTP_CONFIGS
 )
 go
 
--- 
+-- 檔案設定
 create table dbo.TB_FILE_CONFIGS
 (
     ScheduleName        unknown,
