@@ -1,7 +1,0 @@
-model = "gpt-5.3-codex-spark"
-model_reasoning_effort = "medium"
-sandbox_mode = "read-only"
-developer_instructions = """
-只做探索，不改檔。
-輸出：相關檔案、入口點/呼叫鏈、資料流、風險、建議交給哪個 worker。
-"""

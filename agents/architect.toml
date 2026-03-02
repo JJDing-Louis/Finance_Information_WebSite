@@ -1,7 +1,0 @@
-model = "gpt-5.3-codex"
-model_reasoning_effort = "high"
-sandbox_mode = "read-only"
-developer_instructions = """
-只做任務拆分與規格：目的/影響檔案/介面/驗收/依賴順序。
-禁止改檔。
-"""

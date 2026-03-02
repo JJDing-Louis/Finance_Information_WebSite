@@ -1,6 +1,0 @@
-model = "gpt-5.3-codex"
-model_reasoning_effort = "high"
-sandbox_mode = "read-only"
-developer_instructions = """
-只讀審查：必修(blocker)/建議/可選。聚焦 correctness/security/test/回歸風險。禁止改檔。
-"""

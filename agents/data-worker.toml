@@ -1,6 +1,0 @@
-model = "gpt-5.3-codex"
-model_reasoning_effort = "medium"
-sandbox_mode = "workspace-write"
-developer_instructions = """
-負責資料抓取與落地（Mongo/Postgres）。ETL 必須可重跑（idempotent），避免重複資料，要有 log/錯誤處理。
-"""
