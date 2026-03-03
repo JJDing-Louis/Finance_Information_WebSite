@@ -15,7 +15,7 @@
 -- 1. TWSE_MI_INDEX：上市盤後成交（全市場）
 -- 來源：TWSE /exchangeReport/MI_INDEX
 -- ============================================================================
-CREATE TABLE IF NOT EXISTS TWSE_MI_INDEX (
+CREATE TABLE IF NOT EXISTS TWSE_MIINDEX (
     trade_date              date,               -- 交易日期
     stock_code              varchar(10),        -- 證券代號
     stock_name              varchar(100),       -- 證券名稱
@@ -37,32 +37,32 @@ CREATE TABLE IF NOT EXISTS TWSE_MI_INDEX (
     data_date               timestamptz         -- 資料落地時間（DataDate）
 );
 
-COMMENT ON TABLE TWSE_MI_INDEX IS '上市盤後成交（全市場）（Raw 落地表，欄位 1:1 對應官方網站資料）';
-COMMENT ON COLUMN TWSE_MI_INDEX.trade_date IS '交易日期';
-COMMENT ON COLUMN TWSE_MI_INDEX.stock_code IS '證券代號';
-COMMENT ON COLUMN TWSE_MI_INDEX.stock_name IS '證券名稱';
-COMMENT ON COLUMN TWSE_MI_INDEX.trade_volume IS '成交股數';
-COMMENT ON COLUMN TWSE_MI_INDEX.trade_value IS '成交金額';
-COMMENT ON COLUMN TWSE_MI_INDEX.transaction_count IS '成交筆數';
-COMMENT ON COLUMN TWSE_MI_INDEX.open_price IS '開盤價';
-COMMENT ON COLUMN TWSE_MI_INDEX.high_price IS '最高價';
-COMMENT ON COLUMN TWSE_MI_INDEX.low_price IS '最低價';
-COMMENT ON COLUMN TWSE_MI_INDEX.close_price IS '收盤價';
-COMMENT ON COLUMN TWSE_MI_INDEX.price_change IS '漲跌價差';
-COMMENT ON COLUMN TWSE_MI_INDEX.price_change_sign IS '漲跌方向（依網站字元）';
-COMMENT ON COLUMN TWSE_MI_INDEX.last_best_bid_price IS '最後揭示買價';
-COMMENT ON COLUMN TWSE_MI_INDEX.last_best_bid_volume IS '最後揭示買量';
-COMMENT ON COLUMN TWSE_MI_INDEX.last_best_ask_price IS '最後揭示賣價';
-COMMENT ON COLUMN TWSE_MI_INDEX.last_best_ask_volume IS '最後揭示賣量';
-COMMENT ON COLUMN TWSE_MI_INDEX.price_earnings_ratio IS '本益比（P/E Ratio）';
-COMMENT ON COLUMN TWSE_MI_INDEX.web_date IS '網站資料時間（WebDate）';
-COMMENT ON COLUMN TWSE_MI_INDEX.data_date IS '資料落地時間（DataDate）';
+COMMENT ON TABLE TWSE_MIINDEX IS '上市盤後成交（全市場）（Raw 落地表，欄位 1:1 對應官方網站資料）';
+COMMENT ON COLUMN TWSE_MIINDEX.trade_date IS '交易日期';
+COMMENT ON COLUMN TWSE_MIINDEX.stock_code IS '證券代號';
+COMMENT ON COLUMN TWSE_MIINDEX.stock_name IS '證券名稱';
+COMMENT ON COLUMN TWSE_MIINDEX.trade_volume IS '成交股數';
+COMMENT ON COLUMN TWSE_MIINDEX.trade_value IS '成交金額';
+COMMENT ON COLUMN TWSE_MIINDEX.transaction_count IS '成交筆數';
+COMMENT ON COLUMN TWSE_MIINDEX.open_price IS '開盤價';
+COMMENT ON COLUMN TWSE_MIINDEX.high_price IS '最高價';
+COMMENT ON COLUMN TWSE_MIINDEX.low_price IS '最低價';
+COMMENT ON COLUMN TWSE_MIINDEX.close_price IS '收盤價';
+COMMENT ON COLUMN TWSE_MIINDEX.price_change IS '漲跌價差';
+COMMENT ON COLUMN TWSE_MIINDEX.price_change_sign IS '漲跌方向（依網站字元）';
+COMMENT ON COLUMN TWSE_MIINDEX.last_best_bid_price IS '最後揭示買價';
+COMMENT ON COLUMN TWSE_MIINDEX.last_best_bid_volume IS '最後揭示買量';
+COMMENT ON COLUMN TWSE_MIINDEX.last_best_ask_price IS '最後揭示賣價';
+COMMENT ON COLUMN TWSE_MIINDEX.last_best_ask_volume IS '最後揭示賣量';
+COMMENT ON COLUMN TWSE_MIINDEX.price_earnings_ratio IS '本益比（P/E Ratio）';
+COMMENT ON COLUMN TWSE_MIINDEX.web_date IS '網站資料時間（WebDate）';
+COMMENT ON COLUMN TWSE_MIINDEX.data_date IS '資料落地時間（DataDate）';
 
 -- ============================================================================
 -- 2. TWSE_STOCK_DAY：個股月成交（單一股票）
 -- 來源：TWSE /exchangeReport/STOCK_DAY
 -- ============================================================================
-CREATE TABLE IF NOT EXISTS TWSE_STOCK_DAY (
+CREATE TABLE IF NOT EXISTS TWSE_STOCKDAY (
     trade_date          date,               -- 交易日期
     stock_code          varchar(10),        -- 股票代碼
     trade_volume        bigint,             -- 成交股數
@@ -77,19 +77,19 @@ CREATE TABLE IF NOT EXISTS TWSE_STOCK_DAY (
     data_date           timestamptz         -- 資料落地時間（DataDate）
 );
 
-COMMENT ON TABLE TWSE_STOCK_DAY IS '個股月成交（單一股票）（Raw 落地表，欄位 1:1 對應官方網站資料）';
-COMMENT ON COLUMN TWSE_STOCK_DAY.trade_date IS '交易日期';
-COMMENT ON COLUMN TWSE_STOCK_DAY.stock_code IS '股票代碼';
-COMMENT ON COLUMN TWSE_STOCK_DAY.trade_volume IS '成交股數';
-COMMENT ON COLUMN TWSE_STOCK_DAY.trade_value IS '成交金額';
-COMMENT ON COLUMN TWSE_STOCK_DAY.open_price IS '開盤價';
-COMMENT ON COLUMN TWSE_STOCK_DAY.high_price IS '最高價';
-COMMENT ON COLUMN TWSE_STOCK_DAY.low_price IS '最低價';
-COMMENT ON COLUMN TWSE_STOCK_DAY.close_price IS '收盤價';
-COMMENT ON COLUMN TWSE_STOCK_DAY.price_change IS '漲跌價差';
-COMMENT ON COLUMN TWSE_STOCK_DAY.transaction_count IS '成交筆數';
-COMMENT ON COLUMN TWSE_STOCK_DAY.web_date IS '網站資料時間（WebDate）';
-COMMENT ON COLUMN TWSE_STOCK_DAY.data_date IS '資料落地時間（DataDate）';
+COMMENT ON TABLE TWSE_STOCKDAY IS '個股月成交（單一股票）（Raw 落地表，欄位 1:1 對應官方網站資料）';
+COMMENT ON COLUMN TWSE_STOCKDAY.trade_date IS '交易日期';
+COMMENT ON COLUMN TWSE_STOCKDAY.stock_code IS '股票代碼';
+COMMENT ON COLUMN TWSE_STOCKDAY.trade_volume IS '成交股數';
+COMMENT ON COLUMN TWSE_STOCKDAY.trade_value IS '成交金額';
+COMMENT ON COLUMN TWSE_STOCKDAY.open_price IS '開盤價';
+COMMENT ON COLUMN TWSE_STOCKDAY.high_price IS '最高價';
+COMMENT ON COLUMN TWSE_STOCKDAY.low_price IS '最低價';
+COMMENT ON COLUMN TWSE_STOCKDAY.close_price IS '收盤價';
+COMMENT ON COLUMN TWSE_STOCKDAY.price_change IS '漲跌價差';
+COMMENT ON COLUMN TWSE_STOCKDAY.transaction_count IS '成交筆數';
+COMMENT ON COLUMN TWSE_STOCKDAY.web_date IS '網站資料時間（WebDate）';
+COMMENT ON COLUMN TWSE_STOCKDAY.data_date IS '資料落地時間（DataDate）';
 
 -- ============================================================================
 -- 3. TWSE_T86：三大法人（上市）
@@ -148,16 +148,16 @@ CREATE TABLE IF NOT EXISTS TWSE_MI_MARGN (
 );
 
 COMMENT ON TABLE TWSE_MI_MARGN IS '融資融券（上市）（Raw 落地表，欄位 1:1 對應官方網站資料）';
-COMMENT ON COLUMN TWSE_MI_MARGN.trade_date IS '交易日期';
-COMMENT ON COLUMN TWSE_MI_MARGN.stock_code IS '股票代碼';
-COMMENT ON COLUMN TWSE_MI_MARGN.margin_purchase IS '融資餘額';
-COMMENT ON COLUMN TWSE_MI_MARGN.margin_purchase_change IS '融資增減';
-COMMENT ON COLUMN TWSE_MI_MARGN.short_sale IS '融券餘額';
-COMMENT ON COLUMN TWSE_MI_MARGN.short_sale_change IS '融券增減';
-COMMENT ON COLUMN TWSE_MI_MARGN.margin_quota IS '融資限額';
-COMMENT ON COLUMN TWSE_MI_MARGN.short_sale_quota IS '融券限額';
-COMMENT ON COLUMN TWSE_MI_MARGN.web_date IS '網站資料時間（WebDate）';
-COMMENT ON COLUMN TWSE_MI_MARGN.data_date IS '資料落地時間（DataDate）';
+COMMENT ON COLUMN TWSE_MIMARGN.trade_date IS '交易日期';
+COMMENT ON COLUMN TWSE_MIMARGN.stock_code IS '股票代碼';
+COMMENT ON COLUMN TWSE_MIMARGN.margin_purchase IS '融資餘額';
+COMMENT ON COLUMN TWSE_MIMARGN.margin_purchase_change IS '融資增減';
+COMMENT ON COLUMN TWSE_MIMARGN.short_sale IS '融券餘額';
+COMMENT ON COLUMN TWSE_MIMARGN.short_sale_change IS '融券增減';
+COMMENT ON COLUMN TWSE_MIMARGN.margin_quota IS '融資限額';
+COMMENT ON COLUMN TWSE_MIMARGN.short_sale_quota IS '融券限額';
+COMMENT ON COLUMN TWSE_MIMARGN.web_date IS '網站資料時間（WebDate）';
+COMMENT ON COLUMN TWSE_MIMARGN.data_date IS '資料落地時間（DataDate）';
 
 -- ============================================================================
 -- 5. TPEX_DAILY_CLOSE_QUOTES：上櫃盤後成交
@@ -180,19 +180,19 @@ CREATE TABLE IF NOT EXISTS TPEX_DAILY_CLOSE_QUOTES (
 );
 
 COMMENT ON TABLE TPEX_DAILY_CLOSE_QUOTES IS '上櫃盤後成交行情（Raw 落地表，欄位 1:1 對應官方網站資料）';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.trade_date IS '交易日期';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.stock_code IS '股票代碼';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.stock_name IS '股票名稱';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.close_price IS '收盤價';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.price_change IS '漲跌價差';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.open_price IS '開盤價';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.high_price IS '最高價';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.low_price IS '最低價';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.trade_volume IS '成交量（股數）';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.trade_value IS '成交金額';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.transaction_count IS '成交筆數';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.web_date IS '網站資料時間（WebDate）';
-COMMENT ON COLUMN TPEX_DAILY_CLOSE_QUOTES.data_date IS '資料落地時間（DataDate）';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.trade_date IS '交易日期';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.stock_code IS '股票代碼';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.stock_name IS '股票名稱';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.close_price IS '收盤價';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.price_change IS '漲跌價差';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.open_price IS '開盤價';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.high_price IS '最高價';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.low_price IS '最低價';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.trade_volume IS '成交量（股數）';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.trade_value IS '成交金額';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.transaction_count IS '成交筆數';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.web_date IS '網站資料時間（WebDate）';
+COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.data_date IS '資料落地時間（DataDate）';
 
 -- ============================================================================
 -- 6. TPEX_INSTITUTIONAL_TRADES：上櫃三大法人（日）
@@ -235,14 +235,14 @@ CREATE TABLE IF NOT EXISTS TPEX_MARGIN_BALANCES (
 );
 
 COMMENT ON TABLE TPEX_MARGIN_BALANCES IS '上櫃融資融券餘額（Raw 落地表）';
-COMMENT ON COLUMN TPEX_MARGIN_BALANCES.trade_date IS '交易日期';
-COMMENT ON COLUMN TPEX_MARGIN_BALANCES.stock_code IS '股票代碼';
-COMMENT ON COLUMN TPEX_MARGIN_BALANCES.margin_purchase IS '融資餘額';
-COMMENT ON COLUMN TPEX_MARGIN_BALANCES.margin_purchase_change IS '融資增減';
-COMMENT ON COLUMN TPEX_MARGIN_BALANCES.short_sale IS '融券餘額';
-COMMENT ON COLUMN TPEX_MARGIN_BALANCES.short_sale_change IS '融券增減';
-COMMENT ON COLUMN TPEX_MARGIN_BALANCES.web_date IS '網站資料時間（WebDate）';
-COMMENT ON COLUMN TPEX_MARGIN_BALANCES.data_date IS '資料落地時間（DataDate）';
+COMMENT ON COLUMN TPEX_MARGINBALANCES.trade_date IS '交易日期';
+COMMENT ON COLUMN TPEX_MARGINBALANCES.stock_code IS '股票代碼';
+COMMENT ON COLUMN TPEX_MARGINBALANCES.margin_purchase IS '融資餘額';
+COMMENT ON COLUMN TPEX_MARGINBALANCES.margin_purchase_change IS '融資增減';
+COMMENT ON COLUMN TPEX_MARGINBALANCES.short_sale IS '融券餘額';
+COMMENT ON COLUMN TPEX_MARGINBALANCES.short_sale_change IS '融券增減';
+COMMENT ON COLUMN TPEX_MARGINBALANCES.web_date IS '網站資料時間（WebDate）';
+COMMENT ON COLUMN TPEX_MARGINBALANCES.data_date IS '資料落地時間（DataDate）';
 
 -- ============================================================================
 -- 8. ESB_DAILY_CLOSE_QUOTES：興櫃盤後成交
@@ -262,13 +262,13 @@ CREATE TABLE IF NOT EXISTS ESB_DAILY_CLOSE_QUOTES (
 );
 
 COMMENT ON TABLE ESB_DAILY_CLOSE_QUOTES IS '興櫃盤後成交行情（Raw 落地表）';
-COMMENT ON COLUMN ESB_DAILY_CLOSE_QUOTES.trade_date IS '交易日期';
-COMMENT ON COLUMN ESB_DAILY_CLOSE_QUOTES.stock_code IS '股票代碼';
-COMMENT ON COLUMN ESB_DAILY_CLOSE_QUOTES.stock_name IS '股票名稱';
-COMMENT ON COLUMN ESB_DAILY_CLOSE_QUOTES.close_price IS '收盤價';
-COMMENT ON COLUMN ESB_DAILY_CLOSE_QUOTES.price_change IS '漲跌價差';
-COMMENT ON COLUMN ESB_DAILY_CLOSE_QUOTES.trade_volume IS '成交量（股數）';
-COMMENT ON COLUMN ESB_DAILY_CLOSE_QUOTES.trade_value IS '成交金額';
-COMMENT ON COLUMN ESB_DAILY_CLOSE_QUOTES.transaction_count IS '成交筆數';
-COMMENT ON COLUMN ESB_DAILY_CLOSE_QUOTES.web_date IS '網站資料時間（WebDate）';
-COMMENT ON COLUMN ESB_DAILY_CLOSE_QUOTES.data_date IS '資料落地時間（DataDate）';
+COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.trade_date IS '交易日期';
+COMMENT ON COLUMN ESB_DAILYCLOSE_QUOTES.stock_code IS '股票代碼';
+COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.stock_name IS '股票名稱';
+COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.close_price IS '收盤價';
+COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.price_change IS '漲跌價差';
+COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.trade_volume IS '成交量（股數）';
+COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.trade_value IS '成交金額';
+COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.transaction_count IS '成交筆數';
+COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.web_date IS '網站資料時間（WebDate）';
+COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.data_date IS '資料落地時間（DataDate）';
