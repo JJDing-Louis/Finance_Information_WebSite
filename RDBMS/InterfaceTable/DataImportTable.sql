@@ -134,7 +134,7 @@ COMMENT ON COLUMN TWSE_T86.data_date IS '資料落地時間（DataDate）';
 -- 4. TWSE_MI_MARGN：融資融券（上市）
 -- 來源：TWSE /exchangeReport/MI_MARGN
 -- ============================================================================
-CREATE TABLE IF NOT EXISTS TWSE_MI_MARGN (
+CREATE TABLE IF NOT EXISTS TWSE_MIMARGN (
     trade_date              date,               -- 交易日期
     stock_code              varchar(10),        -- 股票代碼
     margin_purchase         bigint,             -- 融資餘額
@@ -147,7 +147,7 @@ CREATE TABLE IF NOT EXISTS TWSE_MI_MARGN (
     data_date               timestamptz         -- 資料落地時間（DataDate）
 );
 
-COMMENT ON TABLE TWSE_MI_MARGN IS '融資融券（上市）（Raw 落地表，欄位 1:1 對應官方網站資料）';
+COMMENT ON TABLE TWSE_MIMARGN IS '融資融券（上市）（Raw 落地表，欄位 1:1 對應官方網站資料）';
 COMMENT ON COLUMN TWSE_MIMARGN.trade_date IS '交易日期';
 COMMENT ON COLUMN TWSE_MIMARGN.stock_code IS '股票代碼';
 COMMENT ON COLUMN TWSE_MIMARGN.margin_purchase IS '融資餘額';
@@ -163,7 +163,7 @@ COMMENT ON COLUMN TWSE_MIMARGN.data_date IS '資料落地時間（DataDate）';
 -- 5. TPEX_DAILY_CLOSE_QUOTES：上櫃盤後成交
 -- 來源：TPEX /web/stock/aftertrading/daily_close_quotes/stk_quote_result.php
 -- ============================================================================
-CREATE TABLE IF NOT EXISTS TPEX_DAILY_CLOSE_QUOTES (
+CREATE TABLE IF NOT EXISTS TPEX_DAILYCLOSEQUOTES (
     trade_date          date,               -- 交易日期
     stock_code          varchar(10),        -- 股票代碼
     stock_name          varchar(100),       -- 股票名稱
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS TPEX_DAILY_CLOSE_QUOTES (
     data_date           timestamptz         -- 資料落地時間（DataDate）
 );
 
-COMMENT ON TABLE TPEX_DAILY_CLOSE_QUOTES IS '上櫃盤後成交行情（Raw 落地表，欄位 1:1 對應官方網站資料）';
+COMMENT ON TABLE TPEX_DAILYCLOSEQUOTES IS '上櫃盤後成交行情（Raw 落地表，欄位 1:1 對應官方網站資料）';
 COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.trade_date IS '交易日期';
 COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.stock_code IS '股票代碼';
 COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.stock_name IS '股票名稱';
@@ -198,7 +198,7 @@ COMMENT ON COLUMN TPEX_DAILYCLOSEQUOTES.data_date IS '資料落地時間（DataD
 -- 6. TPEX_INSTITUTIONAL_TRADES：上櫃三大法人（日）
 -- 來源：TPEX /web/stock/3insti/daily_trade/3itrade_hedge_result.php
 -- ============================================================================
-CREATE TABLE IF NOT EXISTS TPEX_INSTITUTIONAL_TRADES (
+CREATE TABLE IF NOT EXISTS TPEX_INSTITUTIONALTRADES (
     trade_date              date,               -- 交易日期
     stock_code              varchar(10),        -- 股票代碼
     foreign_investor_net    bigint,             -- 外資買賣超
@@ -209,21 +209,21 @@ CREATE TABLE IF NOT EXISTS TPEX_INSTITUTIONAL_TRADES (
     data_date               timestamptz         -- 資料落地時間（DataDate）
 );
 
-COMMENT ON TABLE TPEX_INSTITUTIONAL_TRADES IS '上櫃三大法人買賣超（日報）（Raw 落地表）';
-COMMENT ON COLUMN TPEX_INSTITUTIONAL_TRADES.trade_date IS '交易日期';
-COMMENT ON COLUMN TPEX_INSTITUTIONAL_TRADES.stock_code IS '股票代碼';
-COMMENT ON COLUMN TPEX_INSTITUTIONAL_TRADES.foreign_investor_net IS '外資買賣超';
-COMMENT ON COLUMN TPEX_INSTITUTIONAL_TRADES.investment_trust_net IS '投信買賣超';
-COMMENT ON COLUMN TPEX_INSTITUTIONAL_TRADES.dealer_net IS '自營商買賣超';
-COMMENT ON COLUMN TPEX_INSTITUTIONAL_TRADES.total_net IS '三大法人合計買賣超';
-COMMENT ON COLUMN TPEX_INSTITUTIONAL_TRADES.web_date IS '網站資料時間（WebDate）';
-COMMENT ON COLUMN TPEX_INSTITUTIONAL_TRADES.data_date IS '資料落地時間（DataDate）';
+COMMENT ON TABLE TPEX_INSTITUTIONALTRADES IS '上櫃三大法人買賣超（日報）（Raw 落地表）';
+COMMENT ON COLUMN TPEX_INSTITUTIONALTRADES.trade_date IS '交易日期';
+COMMENT ON COLUMN TPEX_INSTITUTIONALTRADES.stock_code IS '股票代碼';
+COMMENT ON COLUMN TPEX_INSTITUTIONALTRADES.foreign_investor_net IS '外資買賣超';
+COMMENT ON COLUMN TPEX_INSTITUTIONALTRADES.investment_trust_net IS '投信買賣超';
+COMMENT ON COLUMN TPEX_INSTITUTIONALTRADES.dealer_net IS '自營商買賣超';
+COMMENT ON COLUMN TPEX_INSTITUTIONALTRADES.total_net IS '三大法人合計買賣超';
+COMMENT ON COLUMN TPEX_INSTITUTIONALTRADES.web_date IS '網站資料時間（WebDate）';
+COMMENT ON COLUMN TPEX_INSTITUTIONALTRADES.data_date IS '資料落地時間（DataDate）';
 
 -- ============================================================================
 -- 7. TPEX_MARGIN_BALANCES：上櫃融資融券餘額
 -- 來源：TPEX /web/stock/margin_trading/margin_balance/margin_bal_result.php
 -- ============================================================================
-CREATE TABLE IF NOT EXISTS TPEX_MARGIN_BALANCES (
+CREATE TABLE IF NOT EXISTS TPEX_MARGINBALANCES (
     trade_date              date,               -- 交易日期
     stock_code              varchar(10),        -- 股票代碼
     margin_purchase         bigint,             -- 融資餘額
@@ -234,7 +234,7 @@ CREATE TABLE IF NOT EXISTS TPEX_MARGIN_BALANCES (
     data_date               timestamptz         -- 資料落地時間（DataDate）
 );
 
-COMMENT ON TABLE TPEX_MARGIN_BALANCES IS '上櫃融資融券餘額（Raw 落地表）';
+COMMENT ON TABLE TPEX_MARGINBALANCES IS '上櫃融資融券餘額（Raw 落地表）';
 COMMENT ON COLUMN TPEX_MARGINBALANCES.trade_date IS '交易日期';
 COMMENT ON COLUMN TPEX_MARGINBALANCES.stock_code IS '股票代碼';
 COMMENT ON COLUMN TPEX_MARGINBALANCES.margin_purchase IS '融資餘額';
@@ -248,7 +248,7 @@ COMMENT ON COLUMN TPEX_MARGINBALANCES.data_date IS '資料落地時間（DataDat
 -- 8. ESB_DAILY_CLOSE_QUOTES：興櫃盤後成交
 -- 來源：TPEX ESB /web/emergingstock/aftertrading/daily_close_quotes/stk_quote_result.php
 -- ============================================================================
-CREATE TABLE IF NOT EXISTS ESB_DAILY_CLOSE_QUOTES (
+CREATE TABLE IF NOT EXISTS ESB_DAILYCLOSEQUOTES (
     trade_date          date,               -- 交易日期
     stock_code          varchar(10),        -- 股票代碼
     stock_name          varchar(100),       -- 股票名稱
@@ -261,9 +261,9 @@ CREATE TABLE IF NOT EXISTS ESB_DAILY_CLOSE_QUOTES (
     data_date           timestamptz         -- 資料落地時間（DataDate）
 );
 
-COMMENT ON TABLE ESB_DAILY_CLOSE_QUOTES IS '興櫃盤後成交行情（Raw 落地表）';
+COMMENT ON TABLE ESB_DAILYCLOSEQUOTES IS '興櫃盤後成交行情（Raw 落地表）';
 COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.trade_date IS '交易日期';
-COMMENT ON COLUMN ESB_DAILYCLOSE_QUOTES.stock_code IS '股票代碼';
+COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.stock_code IS '股票代碼';
 COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.stock_name IS '股票名稱';
 COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.close_price IS '收盤價';
 COMMENT ON COLUMN ESB_DAILYCLOSEQUOTES.price_change IS '漲跌價差';
