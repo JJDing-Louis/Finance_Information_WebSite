@@ -18,15 +18,6 @@ create table dbo.RefScheduleExcuteMode
 )
 go
 
---排程執行模式
-create table dbo.RefRr
-(
-    Name nvarchar(100)              not null
-        primary key,
-    Value  nvarchar(50)             ,
-    Description   nvarchar(50)      
-)
-go
 
 
 --排程設定檔
@@ -39,11 +30,17 @@ create table dbo.TB_SCHEDULE_CONFIGS
     Status       nvarchar(10)               not null,
     scheduleUrl  nvarchar(500)              not null,
     scheduleMode nvarchar(500)              not null,
+    timeout_ms       integer      not null default 15000,
+    retry_count      integer      not null default 2,
+    retry_backoff_ms integer      not null default 500,
     mappingTable nvarchar(50)               not null
 )
 go
 
---API設定
+
+
+
+--WebCrawl設定
 create table dbo.WebCrawl_CONFIGS
 (
     scheduleName        nvarchar(100) not null
@@ -61,6 +58,32 @@ create table dbo.WebCrawl_CONFIGS
     skipEndRow          int
 )
 go
+
+
+
+-- =========================================================
+-- 3) 統一參數表：tb_schedule_http_params（QUERY/BODY/HEADER/COOKIE）
+-- =========================================================
+create table if not exists crawler.tb_schedule_http_params
+(
+    id             bigserial primary key,
+    schedule_name  varchar(100) not null references crawler.tb_schedule_configs(schedule_name) on delete cascade,
+
+    param_location varchar(10)  not null, -- QUERY/BODY/HEADER/COOKIE
+    param_key      varchar(200) not null,
+    param_value    text,
+
+    value_type     varchar(30)  not null default 'CONST', -- CONST/TEMPLATE/RUNTIME/FROM_PREV_STEP
+    data_type      varchar(20), -- STRING/NUMBER/BOOLEAN/JSON（可選）
+    sequence_no    integer      not null default 0,
+
+    is_secret      boolean      not null default false,
+    enabled        boolean      not null default true,
+    modify_time    timestamptz  not null default now(),
+
+    constraint ck_http_params_location check (param_location in ('QUERY','BODY','HEADER','COOKIE')),
+    constraint ck_http_params_value_type check (value_type in ('CONST','TEMPLATE','RUNTIME','FROM_PREV_STEP'))
+);
 
 
 --API設定
@@ -179,3 +202,29 @@ create table dbo.SENDMAIL
     MailToName  varchar(100)
 )
 go
+
+
+-----
+CREATE TABLE dbo.TB_SCHEDULE_WebCrawl_PARAMS
+(
+    id             BIGINT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    scheduleName   NVARCHAR(100) NOT NULL,
+
+    paramLocation  VARCHAR(10) NOT NULL, -- QUERY/BODY/HEADER/COOKIE
+    paramKey       NVARCHAR(200) NOT NULL,
+    paramValue     NVARCHAR(MAX) NULL,
+
+    valueType      VARCHAR(30) NOT NULL CONSTRAINT DF_HTTP_PARAMS_valueType DEFAULT ('CONST'),
+    -- CONST / TEMPLATE / RUNTIME / FROM_PREV_STEP
+
+    dataType       VARCHAR(20) NULL, -- STRING/NUMBER/BOOLEAN/JSON (optional)
+    sequenceNo     INT NOT NULL CONSTRAINT DF_HTTP_PARAMS_sequenceNo DEFAULT (0),
+
+    isSecret       BIT NOT NULL CONSTRAINT DF_HTTP_PARAMS_isSecret DEFAULT (0),
+    enabled        BIT NOT NULL CONSTRAINT DF_HTTP_PARAMS_enabled DEFAULT (1),
+
+    modifyTime     DATETIME NOT NULL CONSTRAINT DF_HTTP_PARAMS_modifyTime DEFAULT (GETDATE())
+);
+
+
+-----
