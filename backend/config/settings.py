@@ -14,9 +14,11 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+# 讀取專案執行更目錄
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+#讀取環境變數
 # Load environment variables from .env (backend/.env)
 load_dotenv(BASE_DIR / ".env")
 
@@ -86,10 +88,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# 讀取Django預設的資料庫連線設定
 # If DJANGO_DB_ENGINE is set -> use Postgres (Neon)
 # Else fallback to SQLite for quick local dev
 _db_engine = (os.getenv("DJANGO_DB_ENGINE", "") or "").strip()
-
+# 有預設的設定走postgresql
 if _db_engine:
     DATABASES = {
         "default": {
@@ -105,6 +108,7 @@ if _db_engine:
             },
         }
     }
+# 沒有走本地的sqlite
 else:
     DATABASES = {
         "default": {

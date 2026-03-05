@@ -7,7 +7,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 
 from .base import BaseConnectionTool
-from settings_provider import EnvDbSettings
+from Share.DBTool.settings_provider import EnvDbSettings
 
 
 class RelationalConnectionTool(BaseConnectionTool, ABC):
