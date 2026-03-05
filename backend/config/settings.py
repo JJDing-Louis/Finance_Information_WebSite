@@ -37,8 +37,8 @@ ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts_raw.split(",") if h.strip()]
 
 # 保底：在 Render 上如果你忘了填，也別直接炸掉
 # （你要嚴格也可以拿掉這段）
-if not ALLOWED_HOSTS and not DEBUG:
-    ALLOWED_HOSTS = [".onrender.com"]
+# if not ALLOWED_HOSTS and not DEBUG:
+#     ALLOWED_HOSTS = [".onrender.com"]
 
 # Application definition
 
@@ -85,8 +85,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 # MongoDB Atlas (for your own services / dbtools usage)
-MONGODB_URI = os.getenv("MONGODB_URI", "")
-MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME", "analytics")
+MONGODB_URI = os.getenv("DB__MONGO__URI", "")
+MONGODB_DB_NAME = os.getenv("DB__MONGO__DB", "analytics")
 
 # 讀取Django預設的資料庫連線設定
 # If DJANGO_DB_ENGINE is set -> use Postgres (Neon)

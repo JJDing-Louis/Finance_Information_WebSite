@@ -20,19 +20,19 @@ from django.contrib import admin
 from django.http import HttpResponse
 
 
-# def healthz(_request):
-#     return JsonResponse({"status": "ok"})
-# urlpatterns = [
-#     path("admin/", admin.site.urls),
-#     path("healthz/", healthz),
-# ]
-
-
-def home(request):
-    return HttpResponse("Finance Information API Server Running 🚀")
+def healthz(_request):
+    return JsonResponse({"status": "ok"})
 urlpatterns = [
-    path('', home),
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    path("healthz/", healthz),
 ]
+
+
+# def home(request):
+#     return HttpResponse("Finance Information API Server Running 🚀")
+# urlpatterns = [
+#     path('', home),
+#     path('admin/', admin.site.urls),
+# ]
 
 
