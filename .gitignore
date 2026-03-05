@@ -11,10 +11,6 @@ venv/
 media/
 staticfiles/
 
-# Env
-.env
-.env.*
-
 # OS
 .DS_Store
 
