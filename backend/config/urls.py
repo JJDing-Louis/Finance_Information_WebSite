@@ -17,12 +17,22 @@ Including another URLconf
 from django.http import JsonResponse
 from django.urls import path
 from django.contrib import admin
+from django.http import HttpResponse
 
-def healthz(_request):
-    return JsonResponse({"status": "ok"})
 
+# def healthz(_request):
+#     return JsonResponse({"status": "ok"})
+# urlpatterns = [
+#     path("admin/", admin.site.urls),
+#     path("healthz/", healthz),
+# ]
+
+
+def home(request):
+    return HttpResponse("Finance Information API Server Running 🚀")
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("healthz/", healthz),
+    path('', home),
+    path('admin/', admin.site.urls),
 ]
+
 
