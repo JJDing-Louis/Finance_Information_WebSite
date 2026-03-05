@@ -22,10 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Load environment variables from .env (backend/.env)
 load_dotenv(BASE_DIR / ".env")
 
-# MongoDB Atlas (for your own services / dbtools usage)
-MONGODB_URI = os.getenv("MONGODB_URI", "")
-MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME", "analytics")
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -87,6 +83,10 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+
+# MongoDB Atlas (for your own services / dbtools usage)
+MONGODB_URI = os.getenv("MONGODB_URI", "")
+MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME", "analytics")
 
 # 讀取Django預設的資料庫連線設定
 # If DJANGO_DB_ENGINE is set -> use Postgres (Neon)
