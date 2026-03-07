@@ -17,14 +17,20 @@ Including another URLconf
 from django.http import JsonResponse
 from django.urls import path
 from django.contrib import admin
-from django.http import HttpResponse
+from Login import views as LoginController
+from Home import views as HomeController
+
 
 
 def healthz(_request):
     return JsonResponse({"status": "ok"})
 urlpatterns = [
+    # path("healthz/", healthz),
     path("admin/", admin.site.urls),
-    path("healthz/", healthz),
+    # 登入畫面
+    path("", LoginController.index, name="login"),
+    path("home/", HomeController.index, name="home"),
+    path("logout/", LoginController.logout, name="logout"),
 ]
 
 
@@ -34,5 +40,3 @@ urlpatterns = [
 #     path('', home),
 #     path('admin/', admin.site.urls),
 # ]
-
-
