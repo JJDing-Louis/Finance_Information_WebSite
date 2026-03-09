@@ -6,6 +6,7 @@ from django.utils import timezone
 
 from Main.models import ScheduleConfig, ScheduleLog
 from Main.registry import resolve_handler
+from Share.Tool.schedule_fun import ScheduleFun
 
 
 @dataclass
@@ -17,7 +18,10 @@ class ExecuteResult:
 
 
 def _build_schedule_config(schedule: ScheduleConfig) -> dict:
-    return {
+    schedule_fun = ScheduleFun()
+    schedule_mode = (schedule.schedule_mode or "").upper()
+
+    config = {
         "schedule_name": schedule.schedule_name,
         "schedule_opt": schedule.schedule_opt,
         "status": schedule.status,
@@ -28,7 +32,21 @@ def _build_schedule_config(schedule: ScheduleConfig) -> dict:
         "retry_backoff_ms": schedule.retry_backoff_ms,
         "mapping_table": schedule.mapping_table,
         "modify_time": schedule.modify_time.isoformat() if schedule.modify_time else None,
+        "mapping_configs": schedule_fun.get_tb_mapping_configs(schedule.schedule_name),
     }
+
+    if schedule_mode in ("FTP", "FTPUPLOAD"):
+        config["mode_config"] = schedule_fun.get_tb_ftp_configs(schedule.schedule_name)
+    elif schedule_mode in ("API", "SPAPI"):
+        config["mode_config"] = schedule_fun.get_tb_api_configs(schedule.schedule_name)
+    elif schedule_mode == "TRANSFERTABLE":
+        config["mode_config"] = schedule_fun.get_table_transfer_config(schedule.schedule_name)
+    elif schedule_mode == "FILETEMPLATEEXPORT":
+        config["mode_config"] = schedule_fun.get_tb_file_configs(schedule.schedule_name)
+    else:
+        config["mode_config"] = {}
+
+    return config
 
 
 def schedule_implement(schedule_name: str) -> ExecuteResult:

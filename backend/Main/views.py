@@ -9,20 +9,10 @@ from Main.tasks import run_schedule_by_name
 @require_GET
 def schedule_implement_view(request):
     schedule_name = (request.GET.get("scheduleName") or "").strip()
-    async_param = (request.GET.get("async") or "true").strip().lower()
 
     if not schedule_name:
         return JsonResponse(
             {"success": False, "message": "scheduleName is required"},
-            status=400,
-        )
-
-    if async_param != "true":
-        return JsonResponse(
-            {
-                "success": False,
-                "message": "Main/scheduleImplement 僅支援非同步，請使用 async=true",
-            },
             status=400,
         )
 

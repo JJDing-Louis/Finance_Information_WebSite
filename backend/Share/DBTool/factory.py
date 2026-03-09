@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from typing import Union
 
-from settings_provider import EnvDbSettings
-from db.relational import (
+from Share.DBTool.settings_provider import EnvDbSettings
+from Share.DBTool.db.relational import (
     SQLiteConnectionTool,
     MSSQLConnectionTool,
     PostgresConnectionTool,
     MySQLConnectionTool,
 )
-from db.nonrelational import MongoConnectionTool
+from Share.DBTool.db.nonrelational import MongoConnectionTool
 
 DbTool = Union[
     SQLiteConnectionTool,

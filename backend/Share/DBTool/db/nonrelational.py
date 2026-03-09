@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 
 from .base import BaseConnectionTool
-from settings_provider import EnvDbSettings
+from Share.DBTool.settings_provider import EnvDbSettings
 
 try:
     from pymongo import MongoClient  # type: ignore

@@ -91,7 +91,11 @@ class MSSQLConnectionTool(RelationalConnectionTool):
 class PostgresConnectionTool(RelationalConnectionTool):
     """TYPE=postgres, expects DB__<NAME>__URL like postgresql+psycopg://..."""
     def _get_url(self) -> str:
-        return self.env.require(self.name, "URL")
+        url = self.env.require(self.name, "URL")
+        # 若未指定 driver，預設改用已安裝的 psycopg
+        if url.startswith("postgresql://"):
+            return url.replace("postgresql://", "postgresql+psycopg://", 1)
+        return url
 
 
 class MySQLConnectionTool(RelationalConnectionTool):
