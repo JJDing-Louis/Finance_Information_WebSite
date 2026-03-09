@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    #Celery
+    "django_celery_results",
     #客製化的app
     "Login",
     "Home",
@@ -159,3 +161,20 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# CELERY 設定
+# 由 .env 提供 CELERY_BROKER_URL，未提供時使用本機預設值
+CELERY_BROKER_URL = (os.getenv("CELERY_BROKER_URL", "") or "").strip()
+if not CELERY_BROKER_URL:
+    CELERY_BROKER_URL = "redis://localhost:6379/0"
+
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+
+CELERY_TIMEZONE = "Asia/Taipei"
+
+# 若要改用 Redis 存結果，可設定為 redis://...；目前採用 Django ORM（PostgreSQL）
+# CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
+
+CELERY_RESULT_BACKEND = "django-db"
