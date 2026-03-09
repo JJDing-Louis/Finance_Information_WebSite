@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 # 讀取專案執行更目錄
@@ -179,3 +180,10 @@ CELERY_TIMEZONE = "Asia/Taipei"
 # CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
 
 CELERY_RESULT_BACKEND = "django-db"
+
+CELERY_BEAT_SCHEDULE = {
+    "dispatch-schedules-via-http-every-minute": {
+        "task": "Main.tasks.dispatch_schedules_via_http",
+        "schedule": crontab(minute="*"),
+    },
+}

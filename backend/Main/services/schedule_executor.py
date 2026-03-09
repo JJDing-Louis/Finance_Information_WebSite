@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 from django.utils import timezone
 
-from Main.models import ScheduleConfig, ScheduleLog
+from Main.models import ScheduleLog
 from Main.registry import resolve_handler
 from Share.Tool.schedule_fun import ScheduleFun
 
@@ -17,32 +17,41 @@ class ExecuteResult:
     data: dict | None = None
 
 
-def _build_schedule_config(schedule: ScheduleConfig) -> dict:
+def _pick(row: dict, *keys: str):
+    for key in keys:
+        if key in row:
+            return row[key]
+    return None
+
+
+def _build_schedule_config(schedule_row: dict) -> dict:
     schedule_fun = ScheduleFun()
-    schedule_mode = (schedule.schedule_mode or "").upper()
+    schedule_name = _pick(schedule_row, "schedule_name", "scheduleName")
+    schedule_mode = str(_pick(schedule_row, "schedule_mode", "scheduleMode") or "").upper()
+    mapping_table = _pick(schedule_row, "mapping_table", "mappingTable") or ""
 
     config = {
-        "schedule_name": schedule.schedule_name,
-        "schedule_opt": schedule.schedule_opt,
-        "status": schedule.status,
-        "schedule_url": schedule.schedule_url,
-        "schedule_mode": schedule.schedule_mode,
-        "timeout_ms": schedule.timeout_ms,
-        "retry_count": schedule.retry_count,
-        "retry_backoff_ms": schedule.retry_backoff_ms,
-        "mapping_table": schedule.mapping_table,
-        "modify_time": schedule.modify_time.isoformat() if schedule.modify_time else None,
-        "mapping_configs": schedule_fun.get_tb_mapping_configs(schedule.schedule_name),
+        "schedule_name": schedule_name,
+        "schedule_opt": _pick(schedule_row, "schedule_opt", "scheduleOpt"),
+        "status": _pick(schedule_row, "status"),
+        "schedule_url": _pick(schedule_row, "schedule_url", "scheduleUrl"),
+        "schedule_mode": schedule_mode,
+        "timeout_ms": _pick(schedule_row, "timeout_ms", "timeoutMs"),
+        "retry_count": _pick(schedule_row, "retry_count", "retryCount"),
+        "retry_backoff_ms": _pick(schedule_row, "retry_backoff_ms", "retryBackoffMs"),
+        "mapping_table": mapping_table,
+        "modify_time": _pick(schedule_row, "modify_time", "modifyTime"),
+        "mapping_configs": schedule_fun.get_tb_mapping_configs(schedule_name),
     }
 
     if schedule_mode in ("FTP", "FTPUPLOAD"):
-        config["mode_config"] = schedule_fun.get_tb_ftp_configs(schedule.schedule_name)
+        config["mode_config"] = schedule_fun.get_tb_ftp_configs(schedule_name)
     elif schedule_mode in ("API", "SPAPI"):
-        config["mode_config"] = schedule_fun.get_tb_api_configs(schedule.schedule_name)
+        config["mode_config"] = schedule_fun.get_tb_api_configs(schedule_name)
     elif schedule_mode == "TRANSFERTABLE":
-        config["mode_config"] = schedule_fun.get_table_transfer_config(schedule.schedule_name)
+        config["mode_config"] = schedule_fun.get_table_transfer_config(schedule_name)
     elif schedule_mode == "FILETEMPLATEEXPORT":
-        config["mode_config"] = schedule_fun.get_tb_file_configs(schedule.schedule_name)
+        config["mode_config"] = schedule_fun.get_tb_file_configs(schedule_name)
     else:
         config["mode_config"] = {}
 
@@ -62,21 +71,22 @@ def schedule_implement(schedule_name: str) -> ExecuteResult:
     )
 
     try:
-        schedule = (
-            ScheduleConfig.objects.filter(
-                schedule_name=schedule_name,
-                status__iexact="ENABLED",
-            ).first()
-        )
-        if not schedule:
+        schedule_fun = ScheduleFun()
+        schedule_row = schedule_fun.get_tb_schedule_config(schedule_name)
+        if not schedule_row:
             raise ValueError(f"Not Match {schedule_name}")
+        status = str(_pick(schedule_row, "status") or "").upper()
+        if status not in ("ENABLED", "ON"):
+            raise ValueError(f"Schedule {schedule_name} is disabled")
 
-        schedule_config = _build_schedule_config(schedule)
-        handler = resolve_handler(schedule.schedule_mode, schedule.mapping_table)
-        result = handler.execute(run_id, schedule.mapping_table, schedule_config) or {}
+        schedule_mode = str(_pick(schedule_row, "schedule_mode", "scheduleMode") or "")
+        mapping_table = str(_pick(schedule_row, "mapping_table", "mappingTable") or "")
+        schedule_config = _build_schedule_config(schedule_row)
+        handler = resolve_handler(schedule_mode, mapping_table)
+        result = handler.execute(run_id, mapping_table, schedule_config) or {}
 
-        log.schedule_mode = schedule.schedule_mode
-        log.mapping_table = schedule.mapping_table
+        log.schedule_mode = schedule_mode
+        log.mapping_table = mapping_table
         log.status = "SUCCESS"
         log.ended_at = timezone.now()
         log.message = "執行成功"

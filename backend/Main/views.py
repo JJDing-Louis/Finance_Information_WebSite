@@ -1,30 +1,45 @@
+import os
+
 from celery.result import AsyncResult
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 
 from config.celery import app
-from Main.tasks import run_schedule_by_name
+from Main.services.schedule_executor import schedule_implement
 
 
 @require_GET
 def schedule_implement_view(request):
     schedule_name = (request.GET.get("scheduleName") or "").strip()
+    expected_token = (os.getenv("SCHEDULE_ENTRY_TOKEN") or "").strip()
+    request_token = (
+        request.headers.get("X-Schedule-Token")
+        or request.GET.get("token")
+        or ""
+    ).strip()
 
     if not schedule_name:
         return JsonResponse(
             {"success": False, "message": "scheduleName is required"},
             status=400,
         )
+    if expected_token and request_token != expected_token:
+        return JsonResponse(
+            {"success": False, "message": "Unauthorized schedule entry"},
+            status=401,
+        )
 
-    task = run_schedule_by_name.delay(schedule_name)
+    result = schedule_implement(schedule_name)
     return JsonResponse(
         {
-            "success": True,
-            "mode": "async",
+            "success": result.success,
+            "mode": "direct",
             "schedule_name": schedule_name,
-            "task_id": task.id,
+            "run_id": result.run_id,
+            "message": result.message,
+            "data": result.data,
         },
-        status=202,
+        status=200 if result.success else 500,
     )
 
 
