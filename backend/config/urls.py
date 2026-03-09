@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.http import JsonResponse
-from django.urls import path
+from django.urls import include, path
 from django.contrib import admin
 from Login import views as LoginController
 from Home import views as HomeController
@@ -31,6 +31,8 @@ urlpatterns = [
     path("", LoginController.index, name="login"),
     path("home/", HomeController.index, name="home"),
     path("logout/", LoginController.logout, name="logout"),
+    path("main/", include("Main.urls")),
+    path("api/", include("API.urls")),
 ]
 
 

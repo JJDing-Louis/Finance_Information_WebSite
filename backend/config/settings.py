@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     #客製化的app
     "Login",
     "Home",
+    "Main",
 ]
 
 MIDDLEWARE = [
